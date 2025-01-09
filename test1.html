@@ -84,8 +84,8 @@
             const firstName = form.firstname.value.trim();
             const city = form.city.value.trim();
 
-            const vowels = 'aeiouáéíóúůýAEIOUÁÉÍÓÚŮÝ';
-            const specialChars = /[^a-zA-ZáéíóúůýÁÉÍÓÚŮÝ]/;
+            const vowels = 'aeiouáéíóúůýčďěňřšťžAEIOUÁÉÍÓÚŮÝČĎĚŇŘŠŤŽ';
+            const specialChars = /[^a-zA-ZáéíóúůýčďěňřšťžÁÉÍÓÚŮÝČĎĚŇŘŠŤŽ]/;
 
             if (!firstName || !city) {
                 errorMsg.textContent = 'Všechna pole musí být vyplněna.';
@@ -106,7 +106,7 @@
                 for (let i = 0; i < str.length; i++) {
                     if (vowels.includes(str[i])) {
                         vowelCount++;
-                    } else if (str[i].match(/[a-zA-ZáéíóúůýÁÉÍÓÚŮÝ]/)) {
+                    } else if (str[i].match(/[a-zA-ZáéíóúůýčďěňřšťžÁÉÍÓÚŮÝČĎĚŇŘŠŤŽ]/)) {
                         consonantCount++;
                     }
                 }

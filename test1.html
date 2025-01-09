@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulář pro testování vstupů</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"] {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome</h1>
+        <form id="myForm" action="#" method="get">
+            <div class="error" id="errorMsg"></div>
+            First Name: <input type="text" name="firstname" id="firstname" placeholder="Zadejte své jméno" required><br>
+            City: <input type="text" name="city" id="city" placeholder="Zadejte své město" required><br>
+            <input type="submit" value="Submit">
+        </form>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('myForm');
+        const resultParagraph = document.getElementById('result');
+        const errorMsg = document.getElementById('errorMsg');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const firstName = form.firstname.value.trim();
+            const city = form.city.value.trim();
+
+            const vowels = 'aeiouáéíóúůýAEIOUÁÉÍÓÚŮÝ';
+            const specialChars = /[^a-zA-ZáéíóúůýÁÉÍÓÚŮÝ]/;
+
+            if (!firstName || !city) {
+                errorMsg.textContent = 'Všechna pole musí být vyplněna.';
+                return;
+            }
+
+            if (specialChars.test(firstName) || specialChars.test(city)) {
+                errorMsg.textContent = 'Do polí nesmíte zadávat čísla, speciální znaky ani emoji.';
+                return;
+            }
+
+            errorMsg.textContent = '';
+
+            function countVowelsAndConsonants(str) {
+                let vowelCount = 0;
+                let consonantCount = 0;
+
+                for (let i = 0; i < str.length; i++) {
+                    if (vowels.includes(str[i])) {
+                        vowelCount++;
+                    } else if (str[i].match(/[a-zA-ZáéíóúůýÁÉÍÓÚŮÝ]/)) {
+                        consonantCount++;
+                    }
+                }
+
+                return { vowelCount, consonantCount };
+            }
+
+            const firstNameCounts = countVowelsAndConsonants(firstName);
+            const cityCounts = countVowelsAndConsonants(city);
+
+            const result = `Welcome (${firstName}) from (${city}). There are ${firstNameCounts.vowelCount} vowels in your first name and ${firstNameCounts.consonantCount} consonants in your first name, and there are ${cityCounts.vowelCount} vowels in your city and ${cityCounts.consonantCount} consonants in your city.`;
+
+            resultParagraph.textContent = result;
+        });
+    </script>
+</body>
+</html>
